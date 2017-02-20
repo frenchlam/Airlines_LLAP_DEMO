@@ -56,7 +56,4 @@ done
 echo "loading data"
 hive -v -f ../ddl/$LOAD_DATA_FILE
 
-echo "to ORC"
-hive -v -f ../ddl/to_orc.sql
-
 
