@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e -x;
 
-export Data_DIR=$(pwd)"/Airlines_LLAP_DEMO-master/data"
+export Data_DIR=$(pwd)"/data"
 export START="2007"
 export END="2008"
 
@@ -42,6 +42,11 @@ LOAD_DATA_FILE="load_data_text.sql"
 
 rm -f ../ddl/$LOAD_DATA_FILE
 touch ../ddl/$LOAD_DATA_FILE
+
+echo "LOAD DATA LOCAL INPATH '$Data_DIR//carriers.csv.gz' INTO TABLE airlines_raw;" >> ../ddl/$LOAD_DATA_FILE
+echo "LOAD DATA LOCAL INPATH './data/airports.csv.gz' INTO TABLE airports_raw;" >> ../ddl/$LOAD_DATA_FILE
+echo "LOAD DATA LOCAL INPATH './data/plane-data.csv.gz' INTO TABLE planes_raw;" >> ../ddl/$LOAD_DATA_FILE
+
 
 for YEAR in $( seq $START $END )
 do
