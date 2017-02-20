@@ -43,9 +43,9 @@ LOAD_DATA_FILE="load_data_text.sql"
 rm -f ../ddl/$LOAD_DATA_FILE
 touch ../ddl/$LOAD_DATA_FILE
 
-echo "LOAD DATA LOCAL INPATH '$Data_DIR//carriers.csv.gz' INTO TABLE airline_ontime.airlines_raw;" >> ../ddl/$LOAD_DATA_FILE
-echo "LOAD DATA LOCAL INPATH './data/airports.csv.gz' INTO TABLE airline_ontime.airports_raw;" >> ../ddl/$LOAD_DATA_FILE
-echo "LOAD DATA LOCAL INPATH './data/plane-data.csv.gz' INTO TABLE airline_ontime.planes_raw;" >> ../ddl/$LOAD_DATA_FILE
+echo "LOAD DATA LOCAL INPATH '$Data_DIR/carriers.csv.gz' INTO TABLE airline_ontime.airlines_raw;" >> ../ddl/$LOAD_DATA_FILE
+echo "LOAD DATA LOCAL INPATH '$Data_DIR/airports.csv.gz' INTO TABLE airline_ontime.airports_raw;" >> ../ddl/$LOAD_DATA_FILE
+echo "LOAD DATA LOCAL INPATH '$Data_DIR/plane-data.csv.gz' INTO TABLE airline_ontime.planes_raw;" >> ../ddl/$LOAD_DATA_FILE
 
 
 for YEAR in $( seq $START $END )
@@ -53,5 +53,6 @@ do
 	echo "LOAD DATA LOCAL INPATH '$Data_DIR/$YEAR.csv.bz2' INTO TABLE airline_ontime.flights_raw ;" >> ../ddl/$LOAD_DATA_FILE
 done
 
+echo "loading data"
 hive -v -f ../ddl/$LOAD_DATA_FILE
 
