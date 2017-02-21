@@ -6,7 +6,7 @@ export DATABASE="airline_ontime"
 tail -n+2 ddl/to_orc.sql > ddl/tmp_file_orc ; mv ddl/tmp_file_orc ddl/to_orc.sql
 sed -i "1 i\use $DATABASE;" ddl/to_orc.sql
 
-tail -n+2 ddl/optimize.sql > ddl/tmp_file_op ; mv ddl/tmp_file_opt ddl/optimize.sql
+tail -n+2 ddl/optimize.sql > ddl/tmp_file_opt ; mv ddl/tmp_file_opt ddl/optimize.sql
 sed -i "1 i\use $DATABASE;" ddl/optimize.sql
 
 #execute the scripts
