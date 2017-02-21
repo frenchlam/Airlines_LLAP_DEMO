@@ -37,8 +37,8 @@ echo "Carrier, airport, plane-data : OK"
 cd $Data_DIR
 
 tail -n+3 ../ddl/airline_create.sql > ../ddl/tmp_file_create ; mv ../ddl/tmp_file_create ../ddl/airline_create.sql
-sed -i '1 i\use $DATABASE;' ../ddl/airline_create.sql
-sed -i '1 i\create database if not exists $DATABASE;' ../ddl/airline_create.sql
+sed -i "1 i\use ${DATABASE};" ../ddl/airline_create.sql
+sed -i "1 i\create database if not exists ${DATABASE};" ../ddl/airline_create.sql
 
 hive -v -f ../ddl/airline_create.sql
 echo "structure created"
