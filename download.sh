@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e -x;
 
-export Data_DIR=$(pwd)"/data"
+export Data_DIR="$(pwd)/data"
+echo $Data_DIR
 export HDFS_DIR="/tmp/airline_demo/data"
 export START="1988"
 export END="2008"
@@ -46,10 +47,6 @@ sed -i "1 i\use ${DATABASE};" ../ddl/airline_create.sql
 sed -i "1 i\create database if not exists ${DATABASE};" ../ddl/airline_create.sql
 
 
-hive -v -f ../ddl/airline_create.sql
-echo "structure created"
-
-
 ###### load data
 #create sql load file 
 LOAD_DATA_FILE="load_data_text.sql"
@@ -88,6 +85,10 @@ sudo -u hdfs hdfs dfs -fromlocal $Data_DIR/* $HDFS_DIR
 sudo -u hdfs hdfs dfs -chmod -R 777 $HDFS_DIR
 sudo -u hdfs hdfs dfs -chown -R hive:hdfs $HDFS_DIR
 
+# create structure
+#sudo chmod 766 -R ../ddl/*
+sudo -u hive hive -v -f ../ddl/airline_create.sql
+echo "structure created"
 
 #load data 
 echo "loading data"
