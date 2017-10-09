@@ -34,8 +34,8 @@ done
 echo "Carrier, airport, plane-data : OK"
 
 #Download weather data 
-wget -c https://drive.google.com/open?id=0BzgswUsgqpZSczdfbUxtdm94QU0 \ 
-https://drive.google.com/open?id=0BzgswUsgqpZSa05haEhsdEMtOUk
+#wget -c https://drive.google.com/open?id=0BzgswUsgqpZSczdfbUxtdm94QU0 \ 
+#https://drive.google.com/open?id=0BzgswUsgqpZSa05haEhsdEMtOUk
 
 
 #create table structure
@@ -46,7 +46,7 @@ sed -i "1 i\use ${DATABASE};" ../ddl/airline_create.sql
 sed -i "1 i\create database if not exists ${DATABASE};" ../ddl/airline_create.sql
 
 
-#hive -v -f ../ddl/airline_create.sql
+hive -v -f ../ddl/airline_create.sql
 echo "structure created"
 
 
@@ -67,14 +67,6 @@ touch ../ddl/$LOAD_DATA_FILE
 #	echo "LOAD DATA LOCAL INPATH '$Data_DIR/$YEAR.csv.bz2' INTO TABLE $DATABASE.flights_raw ;" >> ../ddl/$LOAD_DATA_FILE
 #done
 
-###### Push data to hdfs 
-##create dir
-sudo -u hdfs hdfs dfs -rmdir --ignore-fail-on-non-empty /tmp/airline_raw 
-sudo -u hdfs hdfs dfs -mkdir /tmp/airline_raw
-##Push to hdfs 
-sudo -u hdfs hdfs dfs -fromlocal $Data_DIR/* $HDFS_DIR
-sudo -u hdfs hdfs dfs -chmod -R 777 $HDFS_DIR
-sudo -u hdfs hdfs dfs -chown -R hive:hdfs $HDFS_DIR
 
 echo "LOAD DATA INPATH '$HDFS_DIR/carriers.csv.gz' INTO TABLE $DATABASE.airlines_raw;" >> ../ddl/$LOAD_DATA_FILE
 echo "LOAD DATA INPATH '$HDFS_DIR/airports.csv.gz' INTO TABLE $DATABASE.airports_raw;" >> ../ddl/$LOAD_DATA_FILE
@@ -86,6 +78,15 @@ do
 	echo "LOAD DATA INPATH '$HDFS_DIR/$YEAR.csv.bz2' INTO TABLE $DATABASE.flights_raw ;" >> ../ddl/$LOAD_DATA_FILE
 done
 
+
+###### Push data to hdfs 
+##create dir
+sudo -u hdfs hdfs dfs -rmdir --ignore-fail-on-non-empty /tmp/airline_raw 
+sudo -u hdfs hdfs dfs -mkdir /tmp/airline_raw
+##Push to hdfs 
+sudo -u hdfs hdfs dfs -fromlocal $Data_DIR/* $HDFS_DIR
+sudo -u hdfs hdfs dfs -chmod -R 777 $HDFS_DIR
+sudo -u hdfs hdfs dfs -chown -R hive:hdfs $HDFS_DIR
 
 
 #load data 
