@@ -84,7 +84,7 @@ fi
 sudo -u hdfs hdfs dfs -mkdir -p $HDFS_DIR
 
 ##Push to hdfs 
-sudo -u hdfs hdfs dfs -fromlocal $Data_DIR/* $HDFS_DIR/
+sudo -u hdfs hdfs dfs --copyFromLocal -f $Data_DIR/* $HDFS_DIR/
 sudo -u hdfs hdfs dfs -chmod -R 777 $HDFS_DIR
 sudo -u hdfs hdfs dfs -chown -R hive:hdfs $HDFS_DIR
 
