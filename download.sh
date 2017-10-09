@@ -2,7 +2,7 @@
 set -e -x;
 
 export Data_DIR="$(pwd)/data"
-export HDFS_DIR="/tmp/airline_demo/data"
+export HDFS_DIR="/tmp/airline_demo"
 export START="1988"
 export END="2008"
 export DATABASE="airline_ontime"
@@ -77,14 +77,13 @@ done
 
 
 ###### Push data to hdfs 
-##create dir
 if $(hadoop fs -test -d $HDFS_DIR ) ; 
 	then sudo -u hdfs hdfs dfs -rmdir --ignore-fail-on-non-empty $HDFS_DIR
 fi
-sudo -u hdfs hdfs dfs -mkdir -p $HDFS_DIR
 
-##Push to hdfs 
-sudo -u hdfs hdfs dfs --copyFromLocal -f $Data_DIR/* $HDFS_DIR/
+##Push to hdfs
+hdfs dfs -mkdir -p $HDFS_DIR
+hdfs dfs -copyFromLocal -f $Data_DIR/ $HDFS_DIR/
 sudo -u hdfs hdfs dfs -chmod -R 777 $HDFS_DIR
 sudo -u hdfs hdfs dfs -chown -R hive:hdfs $HDFS_DIR
 
