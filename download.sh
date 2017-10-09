@@ -78,10 +78,10 @@ done
 
 ###### Push data to hdfs 
 ##create dir
-if $(hadoop fs -test -d ) ; 
+if $(hadoop fs -test -d $HDFS_DIR ) ; 
 	then sudo -u hdfs hdfs dfs -rmdir --ignore-fail-on-non-empty $HDFS_DIR
 fi
-sudo -u hdfs hdfs dfs -mkdir $HDFS_DIR
+sudo -u hdfs hdfs dfs -mkdir -p $HDFS_DIR
 
 ##Push to hdfs 
 sudo -u hdfs hdfs dfs -fromlocal $Data_DIR/* $HDFS_DIR/
