@@ -2,7 +2,6 @@
 set -e -x;
 
 export Data_DIR="$(pwd)/data"
-echo $Data_DIR
 export HDFS_DIR="/tmp/airline_demo/data"
 export START="1988"
 export END="2008"
@@ -54,6 +53,7 @@ LOAD_DATA_FILE="load_data_text.sql"
 rm -f ../ddl/$LOAD_DATA_FILE
 touch ../ddl/$LOAD_DATA_FILE
 
+### using HIVE CLI 
 #echo "LOAD DATA LOCAL INPATH '$Data_DIR/carriers.csv.gz' INTO TABLE $DATABASE.airlines_raw;" >> ../ddl/$LOAD_DATA_FILE
 #echo "LOAD DATA LOCAL INPATH '$Data_DIR/airports.csv.gz' INTO TABLE $DATABASE.airports_raw;" >> ../ddl/$LOAD_DATA_FILE
 #echo "LOAD DATA LOCAL INPATH '$Data_DIR/plane-data.csv.gz' INTO TABLE $DATABASE.planes_raw;" >> ../ddl/$LOAD_DATA_FILE
@@ -64,7 +64,7 @@ touch ../ddl/$LOAD_DATA_FILE
 #	echo "LOAD DATA LOCAL INPATH '$Data_DIR/$YEAR.csv.bz2' INTO TABLE $DATABASE.flights_raw ;" >> ../ddl/$LOAD_DATA_FILE
 #done
 
-
+### Using Beeline 
 echo "LOAD DATA INPATH '$HDFS_DIR/carriers.csv.gz' INTO TABLE $DATABASE.airlines_raw;" >> ../ddl/$LOAD_DATA_FILE
 echo "LOAD DATA INPATH '$HDFS_DIR/airports.csv.gz' INTO TABLE $DATABASE.airports_raw;" >> ../ddl/$LOAD_DATA_FILE
 echo "LOAD DATA INPATH '$HDFS_DIR/plane-data.csv.gz' INTO TABLE $DATABASE.planes_raw;" >> ../ddl/$LOAD_DATA_FILE
@@ -78,10 +78,13 @@ done
 
 ###### Push data to hdfs 
 ##create dir
-sudo -u hdfs hdfs dfs -rmdir --ignore-fail-on-non-empty /tmp/airline_raw 
-sudo -u hdfs hdfs dfs -mkdir /tmp/airline_raw
+if $(hadoop fs -test -d ) ; 
+	then sudo -u hdfs hdfs dfs -rmdir --ignore-fail-on-non-empty $HDFS_DIR
+fi
+sudo -u hdfs hdfs dfs -mkdir $HDFS_DIR
+
 ##Push to hdfs 
-sudo -u hdfs hdfs dfs -fromlocal $Data_DIR/* $HDFS_DIR
+sudo -u hdfs hdfs dfs -fromlocal $Data_DIR/* $HDFS_DIR/
 sudo -u hdfs hdfs dfs -chmod -R 777 $HDFS_DIR
 sudo -u hdfs hdfs dfs -chown -R hive:hdfs $HDFS_DIR
 
@@ -93,5 +96,4 @@ echo "structure created"
 #load data 
 echo "loading data"
 hive -v -f ../ddl/$LOAD_DATA_FILE
-
 
