@@ -9,34 +9,34 @@ drop table if exists airlines;
 drop table if exists planes;
 
 create table airports (
-	iata string,
-	airport string,
-	city string,
-	state double,
-	country string,
-	lat double,
-	lon double
+  iata string,
+  airport string,
+  city string,
+  state double,
+  country string,
+  lat double,
+  lon double
 )
 STORED AS ORC
 ;
 
 create table airlines (
-	code string,
-	description string
+  code string,
+  description string
 )
 STORED AS ORC
 ;
 
 create table planes (
-	tailnum string,
-	owner_type string,
-	manufacturer string,
-	issue_date string,
-	model string,
-	status string,
-	aircraft_type string,
-	engine_type string,
-	year int
+  tailnum string,
+  owner_type string,
+  manufacturer string,
+  issue_date string,
+  model string,
+  status string,
+  aircraft_type string,
+  engine_type string,
+  year int
 )
 STORED AS ORC
 ;
@@ -113,4 +113,4 @@ select
   SecurityDelay,
   LateAircraftDelay,
   Year
-  from flights_raw;
+from flights_raw;

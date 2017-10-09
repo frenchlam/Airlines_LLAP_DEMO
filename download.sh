@@ -2,7 +2,7 @@
 set -e -x;
 
 export Data_DIR=$(pwd)"/data"
-export START="2007"
+export START="1988"
 export END="2008"
 export DATABASE="airline_ontime"
 
@@ -32,6 +32,10 @@ done
 
 echo "Carrier, airport, plane-data : OK"
 
+#Download weather data 
+wget -c https://drive.google.com/open?id=0BzgswUsgqpZSczdfbUxtdm94QU0 \ 
+https://drive.google.com/open?id=0BzgswUsgqpZSa05haEhsdEMtOUk
+
 
 #create table structure
 cd $Data_DIR
@@ -40,7 +44,8 @@ tail -n+3 ../ddl/airline_create.sql > ../ddl/tmp_file_create ; mv ../ddl/tmp_fil
 sed -i "1 i\use ${DATABASE};" ../ddl/airline_create.sql
 sed -i "1 i\create database if not exists ${DATABASE};" ../ddl/airline_create.sql
 
-hive -v -f ../ddl/airline_create.sql
+
+#hive -v -f ../ddl/airline_create.sql
 echo "structure created"
 
 

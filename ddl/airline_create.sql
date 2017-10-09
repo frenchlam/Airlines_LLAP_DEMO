@@ -39,64 +39,64 @@ create table flights_raw (
 ) 
 ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
 WITH SERDEPROPERTIES (
-                "separatorChar" = ",",
-                "quoteChar"     = '"',
-                "escapeChar"    = "\\"
-                )  
+  "separatorChar" = ",",
+  "quoteChar"     = '"',
+  "escapeChar"    = "\\"
+)  
 stored as textfile 
 tblproperties ("skip.header.line.count"="1")
 ;
 
 create table airports_raw (
-	iata string,
-	airport string,
-	city string,
-	state double,
-	country string,
-	lat double,
-	lon double
+  iata string,
+  airport string,
+  city string,
+  state double,
+  country string,
+  lat double,
+  lon double
 )
 ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
 WITH SERDEPROPERTIES (
-                "separatorChar" = ",",
-                "quoteChar"     = '"',
-                "escapeChar"    = "\\"
-                )  
+  "separatorChar" = ",",
+  "quoteChar"     = '"',
+  "escapeChar"    = "\\"
+)  
 stored as textfile 
 tblproperties ("skip.header.line.count"="1")
 ;
 
 create table airlines_raw (
-	code string,
-	description string
+  code string,
+  description string
 )
 ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
 WITH SERDEPROPERTIES (
-                "separatorChar" = ",",
-                "quoteChar"     = '"',
-                "escapeChar"    = "\\"
-                )  
+  "separatorChar" = ",",
+  "quoteChar"     = '"',
+  "escapeChar"    = "\\"
+)  
 stored as textfile 
 tblproperties ("skip.header.line.count"="1")
 ;
 
 create table planes_raw (
-	tailnum string,
-	owner_type string,
-	manufacturer string,
-	issue_date string,
-	model string,
-	status string,
-	aircraft_type string,
-	engine_type string,
-	year int
+  tailnum string,
+  owner_type string,
+  manufacturer string,
+  issue_date string,
+  model string,
+  status string,
+  aircraft_type string,
+  engine_type string,
+  year int
 )
 ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
 WITH SERDEPROPERTIES (
-                "separatorChar" = ",",
-                "quoteChar"     = '"',
-                "escapeChar"    = "\\"
-                )  
+  "separatorChar" = ",",
+  "quoteChar"     = '"',
+  "escapeChar"    = "\\"
+ )  
 stored as textfile
 tblproperties ("skip.header.line.count"="1")
 ;
