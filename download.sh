@@ -65,14 +65,14 @@ touch ../ddl/$LOAD_DATA_FILE
 #done
 
 ### Using Beeline 
-echo "LOAD DATA INPATH '$HDFS_DIR/carriers.csv.gz' INTO TABLE $DATABASE.airlines_raw;" >> ../ddl/$LOAD_DATA_FILE
-echo "LOAD DATA INPATH '$HDFS_DIR/airports.csv.gz' INTO TABLE $DATABASE.airports_raw;" >> ../ddl/$LOAD_DATA_FILE
-echo "LOAD DATA INPATH '$HDFS_DIR/plane-data.csv.gz' INTO TABLE $DATABASE.planes_raw;" >> ../ddl/$LOAD_DATA_FILE
+echo "LOAD DATA INPATH '$HDFS_DIR/data/carriers.csv.gz' INTO TABLE $DATABASE.airlines_raw;" >> ../ddl/$LOAD_DATA_FILE
+echo "LOAD DATA INPATH '$HDFS_DIR/data/airports.csv.gz' INTO TABLE $DATABASE.airports_raw;" >> ../ddl/$LOAD_DATA_FILE
+echo "LOAD DATA INPATH '$HDFS_DIR/data/plane-data.csv.gz' INTO TABLE $DATABASE.planes_raw;" >> ../ddl/$LOAD_DATA_FILE
 
 
 for YEAR in $( seq $START $END )
 do
-	echo "LOAD DATA INPATH '$HDFS_DIR/$YEAR.csv.bz2' INTO TABLE $DATABASE.flights_raw ;" >> ../ddl/$LOAD_DATA_FILE
+	echo "LOAD DATA INPATH '$HDFS_DIR/data/$YEAR.csv.bz2' INTO TABLE $DATABASE.flights_raw ;" >> ../ddl/$LOAD_DATA_FILE
 done
 
 
@@ -88,11 +88,10 @@ sudo -u hdfs hdfs dfs -chmod -R 777 $HDFS_DIR
 sudo -u hdfs hdfs dfs -chown -R hive:hdfs $HDFS_DIR
 
 # create structure
-#sudo chmod 766 -R ../ddl/*
-sudo -u hive hive -v -f ../ddl/airline_create.sql
+beeline -u jdbc:hive2://localhost:10000/ -n hive -f ../ddl/airline_create.sql
 echo "structure created"
 
 #load data 
 echo "loading data"
-hive -v -f ../ddl/$LOAD_DATA_FILE
+beeline -u jdbc:hive2://localhost:10000/ -n hive -f ../ddl/$LOAD_DATA_FILE
 
