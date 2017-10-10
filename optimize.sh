@@ -11,7 +11,9 @@ sed -i "1 i\use $DATABASE;" ddl/optimize.sql
 
 #execute the scripts
 echo "to ORC"
-hive -v -f ddl/to_orc.sql
+beeline -u jdbc:hive2://localhost:10000/ -n hive -f ddl/to_orc.sql
+#hive -v -f ddl/to_orc.sql
 
 echo "calculate stats"
-hive -v -f ddl/optimize.sql
+beeline -u jdbc:hive2://localhost:10000/ -n hive -f ddl/optimize.sql
+#hive -v -f ddl/optimize.sql

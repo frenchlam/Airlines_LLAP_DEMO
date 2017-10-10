@@ -53,17 +53,6 @@ LOAD_DATA_FILE="load_data_text.sql"
 rm -f ../ddl/$LOAD_DATA_FILE
 touch ../ddl/$LOAD_DATA_FILE
 
-### using HIVE CLI 
-#echo "LOAD DATA LOCAL INPATH '$Data_DIR/carriers.csv.gz' INTO TABLE $DATABASE.airlines_raw;" >> ../ddl/$LOAD_DATA_FILE
-#echo "LOAD DATA LOCAL INPATH '$Data_DIR/airports.csv.gz' INTO TABLE $DATABASE.airports_raw;" >> ../ddl/$LOAD_DATA_FILE
-#echo "LOAD DATA LOCAL INPATH '$Data_DIR/plane-data.csv.gz' INTO TABLE $DATABASE.planes_raw;" >> ../ddl/$LOAD_DATA_FILE
-
-
-#for YEAR in $( seq $START $END )
-#do
-#	echo "LOAD DATA LOCAL INPATH '$Data_DIR/$YEAR.csv.bz2' INTO TABLE $DATABASE.flights_raw ;" >> ../ddl/$LOAD_DATA_FILE
-#done
-
 ### Using Beeline 
 echo "LOAD DATA INPATH '$HDFS_DIR/data/carriers.csv.gz' INTO TABLE $DATABASE.airlines_raw;" >> ../ddl/$LOAD_DATA_FILE
 echo "LOAD DATA INPATH '$HDFS_DIR/data/airports.csv.gz' INTO TABLE $DATABASE.airports_raw;" >> ../ddl/$LOAD_DATA_FILE
