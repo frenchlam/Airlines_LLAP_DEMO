@@ -53,22 +53,22 @@ create table flights (
   CRSDepTime int,
   ArrTime int,
   CRSArrTime int,
-  UniqueCarrier varchar(5),
+  UniqueCarrier string,
   FlightNum int,
-  TailNum varchar(8),
+  TailNum string,
   ActualElapsedTime int,
   CRSElapsedTime int,
   AirTime int,
   ArrDelay int,
   DepDelay int,
-  Origin varchar(3),
-  Dest varchar(3),
+  Origin string,
+  Dest string,
   Distance int,
   TaxiIn int,
   TaxiOut int,
   Cancelled int,
-  CancellationCode varchar(1),
-  Diverted varchar(1),
+  CancellationCode string,
+  Diverted string,
   CarrierDelay int,
   WeatherDelay int,
   NASDelay int,
@@ -79,8 +79,8 @@ PARTITIONED BY (Year int)
 CLUSTERED BY (Month)
 SORTED BY (DayofMonth) into 12 buckets
 STORED AS ORC
-TBLPROPERTIES("orc.bloom.filter.columns"="*")
-;
+TBLPROPERTIES("orc.bloom.filter.columns"= "Month,DayOfWeek,DayofMonth,UniqueCarrier,TailNum,FlightNum,Origin,Dest,CancellationCode",
+  "orc.create.index"="true");
 
 insert overwrite table flights partition(year) 
 select
@@ -113,4 +113,8 @@ select
   SecurityDelay,
   LateAircraftDelay,
   Year
-from flights_raw;
+from flights_raw
+Where Year = 1998 
+Distribute By Year
+Sort by concat(Month,DayofMonth) ;
+
