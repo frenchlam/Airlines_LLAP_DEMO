@@ -114,7 +114,6 @@ select
   LateAircraftDelay,
   Year
 from flights_raw
-Where Year = 1998 
 Distribute By Year
 Sort by concat(Month,DayofMonth) ;
 
