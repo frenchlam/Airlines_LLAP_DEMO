@@ -7,7 +7,8 @@ set -e -x;
 export Data_DIR="./data"
 export HDFS_DIR="/tmp/airline_demo"
 
-### scope of the flights data
+### scope of the flights data - Year
+### Possible values between 1988 and 2008
 export START="1988"
 export END="2008"
 
