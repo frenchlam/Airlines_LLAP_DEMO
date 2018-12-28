@@ -2,6 +2,9 @@ use airline_ontime;
 
 set hive.exec.dynamic.partition.mode=nonstrict;
 set hive.optimize.sort.dynamic.partition=true;
+set hive.stats.autogather=true;
+set hive.stats.column.autogather=true;
+
 
 drop table if exists flights;
 drop table if exists airports;
@@ -76,13 +79,11 @@ create table flights (
   LateAircraftDelay int
 ) 
 PARTITIONED BY (Year int)
-CLUSTERED BY (Month)
-SORTED BY (DayofMonth) into 12 buckets
 STORED AS ORC
 TBLPROPERTIES("orc.bloom.filter.columns"= "Month,DayOfWeek,DayofMonth,UniqueCarrier,TailNum,FlightNum,Origin,Dest,CancellationCode",
   "orc.create.index"="true");
 
-insert overwrite table flights partition(year) 
+insert overwrite table flights partition(Year) 
 select
   Month,
   DayofMonth,

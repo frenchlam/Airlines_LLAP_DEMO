@@ -1,5 +1,3 @@
-create database if not exists airline_ontime;
-use airline_ontime;
 
 drop table if exists flights_raw;
 drop table if exists airports_raw;
