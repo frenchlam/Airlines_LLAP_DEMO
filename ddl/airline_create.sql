@@ -1,4 +1,4 @@
-
+use airline_ontime ; 
 
 
 drop table if exists flights_raw PURGE;
