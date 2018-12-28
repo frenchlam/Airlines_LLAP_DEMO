@@ -69,9 +69,10 @@ echo "Carrier, airport, plane-data Dowloaded"
 #	sed -i '1i\\' ddl/airline_create.sql
 #fi
 
+sed -i "1s/^/use ${DATABASE};/" ddl/airline_create.sql
 sed -i "1s/^/create database if not exists ${DATABASE};/" ddl/airline_create.sql
 sed -i '1i\\' ddl/airline_create.sql
-sed -i "1s/^/use ${DATABASE};/" ddl/airline_create.sql
+
 
 #sed -i "1s/^/use ${DATABASE};/" ddl/airline_create.sql
 
