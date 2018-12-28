@@ -1,4 +1,6 @@
 
+
+
 drop table if exists flights_raw PURGE;
 drop table if exists airports_raw PURGE;
 drop table if exists airlines_raw PURGE;

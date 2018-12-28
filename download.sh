@@ -16,8 +16,6 @@ export HIVE_PORT_HTTP=10001
 export LLAP_PORT_HTTP=10501
 export HIVE_HOST="localhost"
 
-export OVERWRITE_TABLE=true
-
 
 ##### Setup #######
 #create data dir
@@ -49,11 +47,6 @@ wget -c \
   http://stat-computing.org/dataexpo/2009/plane-data.csv \
   -P $Data_DIR
 
-#for each in *.csv
-#do 
-#	rm $each.gz || true 
-#	gzip -1 $each
-#done
 
 echo "Carrier, airport, plane-data Dowloaded"
 
@@ -63,23 +56,14 @@ echo "Carrier, airport, plane-data Dowloaded"
 
 
 ####### Prepare Hive table create and Data Load Statements #########
-##create table structure
-#if $OVERWRITE_TABLE; then
-#	sed -i "1s/^/DROP TABLE IF EXISTS flights_raw PURGE;/" ddl/airline_create.sql
-#	sed -i '1i\\' ddl/airline_create.sql
-#fi
-
-sed -i "1s/^/use ${DATABASE};/" ddl/airline_create.sql
-sed -i "1s/^/create database if not exists ${DATABASE};/" ddl/airline_create.sql
-sed -i '1i\\' ddl/airline_create.sql
-
-
-#sed -i "1s/^/use ${DATABASE};/" ddl/airline_create.sql
+sed -i "1c/^/create database if not exists ${DATABASE};/" ddl/airline_create.sql
+sed -i "2c/^/use ${DATABASE};/" ddl/airline_create.sql
+#sed -i '1i\\' ddl/airline_create.sql
 
  
-echo "LOAD DATA INPATH '$HDFS_DIR/data/carriers.csv.gz' INTO TABLE $DATABASE.airlines_raw;" >> ddl/$LOAD_DATA_FILE
-echo "LOAD DATA INPATH '$HDFS_DIR/data/airports.csv.gz' INTO TABLE $DATABASE.airports_raw;" >> ddl/$LOAD_DATA_FILE
-echo "LOAD DATA INPATH '$HDFS_DIR/data/plane-data.csv.gz' INTO TABLE $DATABASE.planes_raw;" >> ddl/$LOAD_DATA_FILE
+echo "LOAD DATA INPATH '$HDFS_DIR/data/carriers.csv' INTO TABLE $DATABASE.airlines_raw;" >> ddl/$LOAD_DATA_FILE
+echo "LOAD DATA INPATH '$HDFS_DIR/data/airports.csv' INTO TABLE $DATABASE.airports_raw;" >> ddl/$LOAD_DATA_FILE
+echo "LOAD DATA INPATH '$HDFS_DIR/data/plane-data.csv' INTO TABLE $DATABASE.planes_raw;" >> ddl/$LOAD_DATA_FILE
 
 
 for YEAR in $( seq $START $END )
