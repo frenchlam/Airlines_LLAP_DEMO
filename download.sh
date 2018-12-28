@@ -10,7 +10,10 @@ export END="2008"
 export DATABASE="airline_ontime"
 export HIVE_PROTOCOL="binary"  # binary | http
 export LLAP=false
-export HIVE_PORT=10000
+export HIVE_PORT_BINARY=10000
+export LLAP_PORT_BINARY=10500
+export HIVE_PORT_HTTP=10001
+export LLAP_PORT_HTTP=10501
 export HIVE_HOST="localhost"
 
 export OVERWRITE_TABLE=true
@@ -46,11 +49,11 @@ wget -c \
   http://stat-computing.org/dataexpo/2009/plane-data.csv \
   -P $Data_DIR
 
-for each in *.csv
-do 
-	rm $each.gz || true 
-	gzip -1 $each
-done
+#for each in *.csv
+#do 
+#	rm $each.gz || true 
+#	gzip -1 $each
+#done
 
 echo "Carrier, airport, plane-data Dowloaded"
 
@@ -99,15 +102,17 @@ sudo -u hdfs hdfs dfs -chown -R hive:hdfs $HDFS_DIR
 
 
 ## build jdbc URL 
+export HIVE_PORT=$HIVE_PORT_BINARY
+export TRANSPORT_MODE=""
+
 if [ $HIVE_PROTOCOL == "http" ]
 then 
 	export TRANSPORT_MODE=";transportMode=http;httpPath=cliservice"
-	if $LLAP; then export PORT=10500; else export PORT=10001; fi
+	if $LLAP; then export HIVE_PORT=$LLAP_PORT_HTTP; else export HIVE_PORT=$HIVE_PORT_HTTP; fi
 	## must add line to change optimize.sh
 
 else 
-	export TRANSPORT_MODE=""
-	if $LLAP; then export PORT=10500; fi
+	if $LLAP; then export HIVE_PORT=$LLAP_PORT_BINARY; fi
 fi 
 
 export JDBC_URL="jdbc:hive2://$HIVE_HOST:$HIVE_PORT/$TRANSPORT_MODE"
