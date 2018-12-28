@@ -56,8 +56,8 @@ echo "Carrier, airport, plane-data Dowloaded"
 
 
 ####### Prepare Hive table create and Data Load Statements #########
-sed -i "1c/^/create database if not exists ${DATABASE};/" ddl/airline_create.sql
-sed -i "2c/^/use ${DATABASE};/" ddl/airline_create.sql
+sed -i "1c create database if not exists ${DATABASE};" ddl/airline_create.sql
+sed -i "2c use ${DATABASE};" ddl/airline_create.sql
 #sed -i '1i\\' ddl/airline_create.sql
 
  
