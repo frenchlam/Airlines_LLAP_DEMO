@@ -1,8 +1,8 @@
 
-drop table if exists flights_raw;
-drop table if exists airports_raw;
-drop table if exists airlines_raw;
-drop table if exists planes_raw;
+drop table if exists flights_raw PURGE;
+drop table if exists airports_raw PURGE;
+drop table if exists airlines_raw PURGE;
+drop table if exists planes_raw PURGE;
 
 create table flights_raw (
   Year int,

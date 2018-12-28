@@ -8,7 +8,7 @@ export START="1988"
 export END="2008"
 
 export DATABASE="airline_ontime"
-export HIVE_PROTOCOL="binary"  # binary | http
+export HIVE_PROTOCOL="http"  # binary | http
 export LLAP=false
 export HIVE_PORT_BINARY=10000
 export LLAP_PORT_BINARY=10500
@@ -64,16 +64,16 @@ echo "Carrier, airport, plane-data Dowloaded"
 
 ####### Prepare Hive table create and Data Load Statements #########
 ##create table structure
-if $OVERWRITE_TABLE; then
-	sed -i "1s/^/DROP TABLE IF EXISTS flights_raw PURGE;/" ddl/airline_create.sql
-	sed -i '1i\\' ddl/airline_create.sql
-fi
+#if $OVERWRITE_TABLE; then
+#	sed -i "1s/^/DROP TABLE IF EXISTS flights_raw PURGE;/" ddl/airline_create.sql
+#	sed -i '1i\\' ddl/airline_create.sql
+#fi
 
-sed -i "1s/^/use ${DATABASE};/" ddl/airline_create.sql
-sed -i '1i\\' ddl/airline_create.sql
 sed -i "1s/^/create database if not exists ${DATABASE};/" ddl/airline_create.sql
-
+sed -i '1i\\' ddl/airline_create.sql
 sed -i "1s/^/use ${DATABASE};/" ddl/airline_create.sql
+
+#sed -i "1s/^/use ${DATABASE};/" ddl/airline_create.sql
 
  
 echo "LOAD DATA INPATH '$HDFS_DIR/data/carriers.csv.gz' INTO TABLE $DATABASE.airlines_raw;" >> ddl/$LOAD_DATA_FILE
