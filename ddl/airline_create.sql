@@ -36,15 +36,20 @@ create table flights_raw (
   NASDelay int,
   SecurityDelay int,
   LateAircraftDelay int
-) 
-ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
-WITH SERDEPROPERTIES (
-  "separatorChar" = ",",
-  "quoteChar"     = '"',
-  "escapeChar"    = "\\"
-)  
-stored as textfile 
-tblproperties ("skip.header.line.count"="1")
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+TBLPROPERTIES ("skip.header.line.count"="1")
+
+#ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+#WITH SERDEPROPERTIES (
+#  "separatorChar" = ",",
+#  "quoteChar"     = '"',
+#  "escapeChar"    = "\\"
+#)  
+#stored as textfile 
+#tblproperties ("skip.header.line.count"="1")
 ;
 
 create table airports_raw (
@@ -56,28 +61,38 @@ create table airports_raw (
   lat double,
   lon double
 )
-ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
-WITH SERDEPROPERTIES (
-  "separatorChar" = ",",
-  "quoteChar"     = '"',
-  "escapeChar"    = "\\"
-)  
-stored as textfile 
-tblproperties ("skip.header.line.count"="1")
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+TBLPROPERTIES ("skip.header.line.count"="1")
+
+#ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+#WITH SERDEPROPERTIES (
+#  "separatorChar" = ",",
+#  "quoteChar"     = '"',
+#  "escapeChar"    = "\\"
+#)  
+#stored as textfile 
+#tblproperties ("skip.header.line.count"="1")
 ;
 
 create table airlines_raw (
   code string,
   description string
 )
-ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
-WITH SERDEPROPERTIES (
-  "separatorChar" = ",",
-  "quoteChar"     = '"',
-  "escapeChar"    = "\\"
-)  
-stored as textfile 
-tblproperties ("skip.header.line.count"="1")
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+TBLPROPERTIES ("skip.header.line.count"="1")
+
+#ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+#WITH SERDEPROPERTIES (
+#  "separatorChar" = ",",
+#  "quoteChar"     = '"',
+#  "escapeChar"    = "\\"
+#)  
+#stored as textfile 
+#tblproperties ("skip.header.line.count"="1")
 ;
 
 create table planes_raw (
@@ -91,12 +106,17 @@ create table planes_raw (
   engine_type string,
   year int
 )
-ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
-WITH SERDEPROPERTIES (
-  "separatorChar" = ",",
-  "quoteChar"     = '"',
-  "escapeChar"    = "\\"
- )  
-stored as textfile
-tblproperties ("skip.header.line.count"="1")
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+TBLPROPERTIES ("skip.header.line.count"="1")
+
+#ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+#WITH SERDEPROPERTIES (
+#  "separatorChar" = ",",
+#  "quoteChar"     = '"',
+#  "escapeChar"    = "\\"
+# )  
+#stored as textfile
+#tblproperties ("skip.header.line.count"="1")
 ;

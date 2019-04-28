@@ -9,6 +9,57 @@ use airline_ontime ;
 --set hive.druid.storage.storageDirectory=/apps/hive/warehouse;
 --set hive.druid.passiveWaitTimeMs=180000;
 
+--set hive.query.results.cache.enabled=false
+
+--partial 
+CREATE EXTERNAL TABLE flights_lim
+STORED BY 'org.apache.hadoop.hive.druid.DruidStorageHandler'
+TBLPROPERTIES (
+	"druid.segment.granularity" = "YEAR",
+	"druid.query.granularity" = "HOUR")
+AS 
+SELECT 
+  cast(flights.Year || '-' || flights.Month || '-' || flights.DayofMonth || ' ' || floor(flights.CRSDepTime/100) || ':00:00' AS timestamp) as `__time`,
+  cast(flights.Year as string) as `Year` ,
+  cast(flights.Month as string) as `Month` ,
+  cast(flights.DayofMonth as string) as `DayofMonth`,
+  cast(flights.DayOfWeek as string) as `DayOfWeek`,
+  cast(floor(flights.CRSDepTime/100) as string) as `DepTime_hour`,
+  cast(pmod(flights.CRSDepTime,100) as string) as `DepTime_minute`,
+  cast(floor(flights.CRSArrTime/100) as string) as `ArrTime_hour`,
+  cast(pmod(flights.CRSArrTime,100) as string) as `ArrTime_minute`,
+  airlines.description as airline_name,
+  cast(flights.FlightNum as string) as `FlightNum`,
+  cast(flights.TailNum as string) as `TailNum`,
+  IF(flights.AirTime IS NULL OR flights.AirTime < 0, -1,flights.AirTime) as `AirTime` ,
+  cast(flights.Origin as string) as Origin,
+  air_origin.airport as Origin_airport,
+  air_origin.city as Origin_city,
+  cast(flights.Dest as string) as Dest,
+  air_dest.airport as Dest_airport,
+  air_dest.city as Dest_city,
+  flights.Distance ,
+  flights.TaxiIn ,
+  flights.TaxiOut ,
+  flights.Cancelled ,
+  flights.Diverted ,
+  flights.CarrierDelay ,
+  flights.WeatherDelay ,
+  flights.SecurityDelay
+FROM 
+  flights, airlines, airports air_origin, airports air_dest
+WHERE
+ (airlines.code = flights.UniqueCarrier) 
+ AND (air_origin.iata = flights.Origin) 
+ AND (air_dest.iata = flights.Origin)
+ AND (flights.month = 1) AND (flights.year = 1989)
+
+
+
+
+
+
+-- Complete 
 
 CREATE EXTERNAL TABLE airlines_druid
 	(`__time` TIMESTAMP, 
